@@ -1,6 +1,10 @@
 <?php
 
+use App\Events\NewMessage;
+
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------

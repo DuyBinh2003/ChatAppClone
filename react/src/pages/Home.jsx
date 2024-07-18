@@ -11,21 +11,11 @@ import axiosClient from "../axios-clients";
 import Overlay from "../layoutComponents/Overlay";
 import Message from "../layoutComponents/components/Message";
 import TippyComponent from "../layoutComponents/components/TippyComponent";
-import { useStateContext } from "../contexts/ContextProvider";
-import echo from "../echo";
 
 export default function Home() {
     const [friends, setFriends] = useState([]);
     const [isChatting, setIsChatting] = useState([]);
 
-    const { currentUser } = useStateContext();
-    useEffect(() => {
-        echo.private(`message-send.${currentUser.id}`) // Thay `message-send` bằng tên kênh bạn đã định nghĩa trong Laravel
-            .listen(".MessageSendEvent", (event) => {
-                console.log("Received message:", event.message);
-                // Xử lý logic khi nhận được sự kiện
-            });
-    }, [currentUser.id]);
     const addChatting = (friend) => {
         if (!isChatting.some((chat) => chat.id === friend.id)) {
             setIsChatting([

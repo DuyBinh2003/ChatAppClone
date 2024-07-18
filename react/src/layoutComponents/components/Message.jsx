@@ -10,6 +10,7 @@ import Input from "./Input";
 import AvatarIcon from "./AvatarIcon";
 import axiosClient from "../../axios-clients";
 import { useStateContext } from "../../contexts/ContextProvider";
+import echo from "../../echo";
 
 export default function Message({
     userChat,
@@ -19,17 +20,29 @@ export default function Message({
     const { currentUser } = useStateContext();
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState("");
+
+    useEffect(() => {
+        echo.channel(`message.${currentUser.id}`).listen(
+            "NewMessage",
+            (data) => {
+                setMessages((prevMessages) => [data, ...prevMessages]);
+            }
+        );
+        return () => {
+            echo.leaveChannel(`message.${currentUser.id}`);
+        };
+    }, []);
+
     useEffect(() => {
         axiosClient
             .get(`/messages/${userChat.id}`)
             .then((res) => {
-                console.log(res.data);
                 setMessages(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [userChat.id]);
+    }, []);
 
     const sendMessage = () => {
         const payload = {
@@ -76,27 +89,24 @@ export default function Message({
             <div className="flex-1 flex flex-col-reverse pb-1 overflow-y-scroll scrollbar-webkit scrollbar-hover">
                 {messages?.length > 0 &&
                     messages.map((message) => {
-                        if (message.user_id_send === userChat.id) {
-                            return (
-                                <div
-                                    key={message.id}
-                                    className="flex items-end mx-2 mt-2"
-                                >
-                                    <AvatarIcon imgPath={userChat.avt_img} />
-                                    <p className="max-w-44 rounded-2xl bg-zinc-800 px-2 py-1 ml-2">
-                                        {message.content}
-                                    </p>
-                                </div>
-                            );
-                        } else
-                            return (
-                                <div
-                                    key={message.id}
-                                    className="self-end mx-2 mt-2 max-w-60 rounded-2xl bg-blue-400 px-2 py-1 ml-2"
-                                >
+                        return message.user_id_send === userChat.id ? (
+                            <div
+                                key={message.id}
+                                className="flex items-end mx-2 mt-2"
+                            >
+                                <AvatarIcon imgPath={userChat.avt_img} />
+                                <p className="max-w-44 rounded-2xl bg-zinc-800 px-2 py-1 ml-2">
                                     {message.content}
-                                </div>
-                            );
+                                </p>
+                            </div>
+                        ) : (
+                            <div
+                                key={message.id}
+                                className="self-end mx-2 mt-2 max-w-60 rounded-2xl bg-blue-400 px-2 py-1 ml-2"
+                            >
+                                {message.content}
+                            </div>
+                        );
                     })}
             </div>
             <footer className="flex items-center p-1 border-t border-zinc-700">
