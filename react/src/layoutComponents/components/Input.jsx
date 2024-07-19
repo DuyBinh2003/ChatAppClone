@@ -9,7 +9,7 @@ export default function Input({
     setData,
 }) {
     const className = classNames(
-        "flex items-center bg-zinc-800 pr-2  rounded-full",
+        "flex items-center bg-zinc-800 pr-2 rounded-full",
         {
             "pl-2 py-1": leftIcon,
             "pl-4 py-2": rightIcon,

@@ -13,17 +13,20 @@ class PostController extends Controller
         Carbon::setLocale('en');
         $now = Carbon::now();
 
+        $perPage = 5;
+        $page = $request->get('page', 1);
+        $offset = ($page - 1) * $perPage;
         $user = $request->user();
         $userFriends = FriendController::getListFriend($user->id);
         $post = $user->posts;
-
         foreach ($userFriends as $friend) {
             $post = $post->merge($friend->posts);
         }
 
-        $post = $post->shuffle();
+        $post = $post->sortByDesc('created_at');
+        $paginatedPosts = $post->slice($offset, $perPage)->values();
 
-        foreach ($post as $p) {
+        foreach ($paginatedPosts as $p) {
             $p->user = $p->user;
             $p->release = $p->created_at->diffForHumans($now);
             foreach ($p->comments as $c) {
@@ -32,6 +35,6 @@ class PostController extends Controller
             $p->post_attributes = $p->postAttributes;
         }
 
-        return response()->json($post);
+        return response()->json($paginatedPosts);
     }
 }

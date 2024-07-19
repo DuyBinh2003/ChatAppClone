@@ -12,7 +12,7 @@ import axiosClient from "../../axios-clients";
 import { useStateContext } from "../../contexts/ContextProvider";
 import echo from "../../echo";
 
-export default function Message({
+export default function Chat({
     userChat,
     changeChattingState,
     removeChatting,

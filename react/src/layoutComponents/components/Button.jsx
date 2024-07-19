@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 export default function Button({
     text = null,
+    subText = null,
     iconClass = null,
     imgPath = null,
     type = "default",
@@ -37,12 +38,20 @@ export default function Button({
             "w-24 rounded-md": type === "square",
         }
     );
+    const textClassName = classNames("ml-2", {
+        "flex-1": subText,
+    });
 
     return (
         <div className={className} onClick={!isDisabled && onClick}>
             {iconClass && <Icon iconClass={iconClass} size={size} />}
             {imgPath && <AvatarIcon imgPath={imgPath} size={size} />}
-            {text && <div className="ml-2">{text}</div>}
+            {text && (
+                <div className={textClassName}>
+                    <h3>{text}</h3>
+                    <p className="text-sm text-gray-400">{subText}</p>
+                </div>
+            )}
         </div>
     );
 }

@@ -11,13 +11,19 @@ import {
     faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { useState } from "react";
 import axiosClient from "../axios-clients";
 import { useStateContext } from "../contexts/ContextProvider";
 import TippyComponent from "./components/TippyComponent";
 import Input from "./components/Input";
+import Overlay from "./Overlay";
+import Menu from "./components/noticeComponents/Menu";
+import Message from "./components/noticeComponents/Message";
+import Notify from "./components/noticeComponents/Notify";
 
 export default function Header() {
     const { currentUser, setCurrentUser, setToken } = useStateContext();
+    const [buttonActive, setButtonActive] = useState(null);
     const onLogout = () => {
         axiosClient
             .post("/logout")
@@ -71,6 +77,12 @@ export default function Header() {
                         size="large"
                         moreClass={["mr-2"]}
                         bgColor="gray"
+                        onClick={() => {
+                            setButtonActive((prev) =>
+                                prev === "Menu" ? null : "Menu"
+                            );
+                        }}
+                        isActived={"Menu" === buttonActive}
                     />
                 </TippyComponent>
                 <TippyComponent content="Message" placement="bottom">
@@ -79,21 +91,53 @@ export default function Header() {
                         moreClass={["mr-2"]}
                         bgColor="gray"
                         size="large"
+                        onClick={() => {
+                            setButtonActive((prev) =>
+                                prev === "Message" ? null : "Message"
+                            );
+                        }}
+                        isActived={"Message" === buttonActive}
                     />
                 </TippyComponent>
                 <TippyComponent content="Notify" placement="bottom">
                     <Button
-                        onClick={onLogout}
                         iconClass={faBell}
                         moreClass={["mr-2"]}
                         bgColor="gray"
                         size="large"
+                        onClick={() => {
+                            setButtonActive((prev) =>
+                                prev === "Notify" ? null : "Notify"
+                            );
+                        }}
+                        isActived={"Notify" === buttonActive}
                     />
                 </TippyComponent>
                 <TippyComponent content="Account" placement="bottom">
-                    <Button imgPath={currentUser.avt_img} size="large" />
+                    <Button
+                        imgPath={currentUser.avt_img}
+                        size="large"
+                        onClick={() => {
+                            setButtonActive("account");
+                        }}
+                    />
                 </TippyComponent>
             </div>
+            {buttonActive !== null && (
+                <Overlay
+                    positionClassName="absolute top-0 right-4"
+                    type="overlay"
+                    onClick={() => {
+                        setButtonActive(null);
+                    }}
+                >
+                    {buttonActive === "Menu" && <Menu />}
+                    {buttonActive === "Message" && (
+                        <Message setButtonActive={setButtonActive} />
+                    )}
+                    {buttonActive === "Notify" && <Notify />}
+                </Overlay>
+            )}
         </header>
     );
 }

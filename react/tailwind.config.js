@@ -48,6 +48,9 @@ export default {
                 ".height-message": {
                     height: "420px",
                 },
+                ".width-notice": {
+                    width: "350px",
+                },
             };
             addUtilities(newUtilities, ["responsive", "hover"]);
         },

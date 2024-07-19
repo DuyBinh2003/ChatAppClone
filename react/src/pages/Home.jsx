@@ -1,55 +1,13 @@
 import Button from "../layoutComponents/components/Button";
 import Content from "../layoutComponents/Content";
 import Sidebar from "../layoutComponents/Sidebar";
-import {
-    faEllipsis,
-    faSearch,
-    faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 import axiosClient from "../axios-clients";
-import Overlay from "../layoutComponents/Overlay";
-import Message from "../layoutComponents/components/Message";
-import TippyComponent from "../layoutComponents/components/TippyComponent";
+import { DefaultContext } from "../layouts/DefaultLayout";
 
 export default function Home() {
-    const [friends, setFriends] = useState([]);
-    const [isChatting, setIsChatting] = useState([]);
-
-    const addChatting = (friend) => {
-        if (!isChatting.some((chat) => chat.id === friend.id)) {
-            setIsChatting([
-                ...isChatting,
-                {
-                    ...friend,
-                    state: "show",
-                },
-            ]);
-        } else {
-            setIsChatting(
-                isChatting.map((chat) => {
-                    if (chat.id === friend.id) {
-                        return { ...chat, state: "show" };
-                    }
-                    return chat;
-                })
-            );
-        }
-    };
-
-    const removeChatting = (friendId) => {
-        setIsChatting(isChatting.filter((item) => item.id !== friendId));
-    };
-    const changeChattingState = (userId, state) => {
-        setIsChatting(
-            isChatting.map((chat) => {
-                if (chat.id === userId) {
-                    return { ...chat, state: state };
-                }
-                return chat;
-            })
-        );
-    };
+    const { friends, setFriends, addChatting } = DefaultContext();
     useEffect(() => {
         axiosClient
             .get("/friends")
@@ -83,67 +41,11 @@ export default function Home() {
                             <Button iconClass={faEllipsis} />
                         </div>
                     </div>
-                    <Sidebar data={friends} setItemSelected={addChatting} />
+                    {friends && (
+                        <Sidebar data={friends} setItemSelected={addChatting} />
+                    )}
                 </div>
             </nav>
-            {isChatting.length > 0 && (
-                <Overlay positionClassName="fixed bottom-0 right-0">
-                    <div className="flex items-end">
-                        <ul className="flex flex-reverse">
-                            {isChatting
-                                .filter((chat) => chat.state === "show")
-                                .map((friend) => (
-                                    <li key={friend.id} className="mr-2">
-                                        <Message
-                                            changeChattingState={
-                                                changeChattingState
-                                            }
-                                            removeChatting={removeChatting}
-                                            userChat={friend}
-                                        />
-                                    </li>
-                                ))}
-                        </ul>
-                        <ul className="flex items-center flex-col-reverse mb-1 mr-1">
-                            {isChatting
-                                .filter((chat) => chat.state === "hide")
-                                .map((friend) => (
-                                    <li key={friend.id} className="m-1">
-                                        <TippyComponent
-                                            content={friend.name}
-                                            placement="left"
-                                        >
-                                            <div className="btn-container">
-                                                <Button
-                                                    imgPath={friend.avt_img}
-                                                    size="large"
-                                                    onClick={() => {
-                                                        changeChattingState(
-                                                            friend.id,
-                                                            "show"
-                                                        );
-                                                    }}
-                                                />
-                                                <div className="icon-hidden">
-                                                    <Button
-                                                        iconClass={faXmark}
-                                                        size="small"
-                                                        bgColor="gray"
-                                                        onClick={() => {
-                                                            removeChatting(
-                                                                friend.id
-                                                            );
-                                                        }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </TippyComponent>
-                                    </li>
-                                ))}
-                        </ul>
-                    </div>
-                </Overlay>
-            )}
         </div>
     );
 }
