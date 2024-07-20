@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home />,
+            },
+            {
+                path: "/profile",
+                element: <Profile />,
             },
             {
                 path: "/users",

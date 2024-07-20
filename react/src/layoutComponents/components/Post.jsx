@@ -20,8 +20,7 @@ import {
 import Input from "./Input";
 
 export default function Post({ data }) {
-    const { user, release, content, image_url, post_attributes, comments } =
-        data;
+    const { user, release, content, image, post_attributes, comments } = data;
     const { currentUser } = useStateContext();
     const findTopTwoType = (arr) => {
         let frequencyMap = {};
@@ -52,7 +51,7 @@ export default function Post({ data }) {
                         <div className="flex items-center">
                             <Link to={`/user/1`}>
                                 <AvatarIcon
-                                    imgPath={user.avt_img}
+                                    imgPath={user.avatar}
                                     size="large"
                                 />
                             </Link>
@@ -80,7 +79,7 @@ export default function Post({ data }) {
                     </p>
                     <img
                         className="mt-2 w-full h-auto"
-                        src={image_url}
+                        src={image}
                         alt="Post"
                     />
                     <div className="p-2.5 flex items-center justify-between">
@@ -146,7 +145,7 @@ export default function Post({ data }) {
                     </div>
                     {comments.length > 0 && (
                         <div className="flex mx-2.5 py-2 border-t border-slate-700">
-                            <Button imgPath={comments[0].user.avt_img} />
+                            <Button imgPath={comments[0].user.avatar} />
                             <div className="flex-1 ml-2 flex items-center">
                                 <div>
                                     <div className="mr-2 bg-zinc-800 rounded-2xl px-3 py-1">
@@ -176,7 +175,7 @@ export default function Post({ data }) {
                         </div>
                     )}
                     <div className="flex items-center mx-2 py-1">
-                        <AvatarIcon imgPath={currentUser.avt_img} />
+                        <AvatarIcon imgPath={currentUser.avatar} />
                         <div className="flex-1 ml-2">
                             <Input
                                 rightIcon={fasPaperPlane}

@@ -29,7 +29,7 @@ export default function Message({ setButtonActive }) {
                 {friends.map((friend) => (
                     <li key={friend.id}>
                         <Button
-                            imgPath={friend.avt_img}
+                            imgPath={friend.avatar}
                             text={friend.name}
                             subText={
                                 friend.latestMessage &&

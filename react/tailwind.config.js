@@ -51,6 +51,9 @@ export default {
                 ".width-notice": {
                     width: "350px",
                 },
+                ".-translate-y-10": {
+                    transform: "translateY(-2.5rem)",
+                },
             };
             addUtilities(newUtilities, ["responsive", "hover"]);
         },

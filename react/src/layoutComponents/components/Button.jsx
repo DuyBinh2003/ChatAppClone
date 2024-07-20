@@ -26,6 +26,7 @@ export default function Button({
         {
             "w-8 h-8": size === "default",
             "w-10 h-10": size === "large",
+            "w-44 h-44": size === "max",
             "w-4 h-4": size === "small",
         },
         {
