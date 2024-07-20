@@ -20,8 +20,7 @@ export default function Button({
         ...moreClass,
         {
             "h-fit w-full p-2 rounded-md ": text, // If text is provided, then apply these classes
-            "w-10 h-10 justify-center rounded-full": !text, // For icon only
-            "justify-center": text && iconClass,
+            "justify-center rounded-full": !text, // For icon only
         },
         {
             "w-8 h-8": size === "default",

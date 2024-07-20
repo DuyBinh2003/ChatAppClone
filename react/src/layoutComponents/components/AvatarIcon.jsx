@@ -6,6 +6,7 @@ export default function AvatarIcon({ imgPath, size = "default" }) {
         "w-10 h-10": size == "large", // For size large
         "w-4 h-4": size == "small", // For size small
         "w-44 h-44": size == "max", // For size max
+        "w-14 h-14": size == "x-max", // For size x-max
     });
     return (
         <div>

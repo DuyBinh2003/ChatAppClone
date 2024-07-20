@@ -138,10 +138,26 @@ export default function Post({ data }) {
                         </div>
                     </div>
                     <div className="mt-2 flex justify-between py-1 mx-2.5 border-t border-slate-700">
-                        <Button text="Like" iconClass={faThumbsUp} />
-                        <Button text="Comment" iconClass={farComment} />
-                        <Button text="Send" iconClass={farPaperPlane} />
-                        <Button text="Share" iconClass={faShareFromSquare} />
+                        <Button
+                            text="Like"
+                            iconClass={faThumbsUp}
+                            moreClass={["justify-center"]}
+                        />
+                        <Button
+                            text="Comment"
+                            iconClass={farComment}
+                            moreClass={["justify-center"]}
+                        />
+                        <Button
+                            text="Send"
+                            iconClass={farPaperPlane}
+                            moreClass={["justify-center"]}
+                        />
+                        <Button
+                            text="Share"
+                            iconClass={faShareFromSquare}
+                            moreClass={["justify-center"]}
+                        />
                     </div>
                     {comments.length > 0 && (
                         <div className="flex mx-2.5 py-2 border-t border-slate-700">

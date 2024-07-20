@@ -1,11 +1,6 @@
 import classNames from "classnames";
 
-export default function Overlay({
-    children,
-    positionClassName,
-    onClick = null,
-    type = "fixed",
-}) {
+export default function Overlay({ children, onClick = null, type = "fixed" }) {
     const handleOnclick = (e) => {
         if (e.target.closest(".absolute")) {
             return;
@@ -17,7 +12,7 @@ export default function Overlay({
     });
     return (
         <div className={className} onClick={handleOnclick}>
-            <div className={positionClassName}>{children}</div>
+            {children}
         </div>
     );
 }

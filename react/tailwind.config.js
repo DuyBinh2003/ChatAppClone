@@ -12,12 +12,12 @@ export default {
                         width: "8px",
                     },
                     "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "gray",
+                        backgroundColor: "red",
                         display: "none",
                         borderRadius: "40px",
                     },
                     "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: "darkgray",
+                        backgroundColor: "red",
                     },
                     "&::-webkit-scrollbar-track": {
                         backgroundColor: "transparent",
@@ -50,6 +50,9 @@ export default {
                 },
                 ".width-notice": {
                     width: "350px",
+                },
+                ".margin-left-width-notice": {
+                    marginLeft: "350px",
                 },
                 ".-translate-y-10": {
                     transform: "translateY(-2.5rem)",

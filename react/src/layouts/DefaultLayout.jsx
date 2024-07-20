@@ -3,7 +3,6 @@ import { useState, createContext, useContext } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 
 import Header from "../layoutComponents/Header";
-import Overlay from "../layoutComponents/Overlay";
 import Chat from "../layoutComponents/components/Chat";
 import TippyComponent from "../layoutComponents/components/TippyComponent";
 import Button from "../layoutComponents/components/Button";
@@ -66,7 +65,7 @@ export default function DefaultLayout() {
                 </div>
             </DefaultLayoutContext.Provider>
             {isChatting.length > 0 && (
-                <Overlay positionClassName="fixed bottom-0 right-0">
+                <div className="fixed bottom-0 right-0">
                     <div className="flex items-end">
                         <ul className="flex flex-reverse">
                             {isChatting
@@ -121,7 +120,7 @@ export default function DefaultLayout() {
                                 ))}
                         </ul>
                     </div>
-                </Overlay>
+                </div>
             )}
         </div>
     );

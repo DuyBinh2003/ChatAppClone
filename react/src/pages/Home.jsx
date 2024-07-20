@@ -17,6 +17,20 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
+    const leftSidebar = [
+        {
+            id: currentUser.id,
+            name: currentUser.name,
+            avatar: currentUser.avatar,
+            to: "/profile/?id=" + currentUser.id,
+        },
+        {
+            id: 2,
+            name: "Friend",
+            avatar: "",
+        },
+    ];
+
     const observer = useRef();
     const lastPostRef = useCallback(
         (node) => {
@@ -36,7 +50,6 @@ export default function Home() {
         axiosClient
             .get(`/posts?page=${page}`)
             .then((response) => {
-                console.log(response.data);
                 setPosts((prevPosts) => [...prevPosts, ...response.data]);
                 setHasMore(response.data.length > 0);
                 setLoading(false);
@@ -45,19 +58,7 @@ export default function Home() {
                 console.log(error);
             });
     }, [page]);
-    const leftSidebar = [
-        {
-            id: currentUser.id,
-            name: currentUser.name,
-            avatar: currentUser.avatar,
-            to: "/profile/?id=" + currentUser.id,
-        },
-        {
-            id: 2,
-            name: "Friend",
-            avatar: "",
-        },
-    ];
+
     useEffect(() => {
         axiosClient
             .get("/friends")

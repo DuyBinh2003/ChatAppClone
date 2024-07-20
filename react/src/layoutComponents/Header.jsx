@@ -12,7 +12,8 @@ import {
     faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import _ from "lodash";
 import { useStateContext } from "../contexts/ContextProvider";
 import TippyComponent from "./components/TippyComponent";
 import Input from "./components/Input";
@@ -20,13 +21,29 @@ import Menu from "./components/noticeComponents/Menu";
 import Message from "./components/noticeComponents/Message";
 import Notify from "./components/noticeComponents/Notify";
 import Account from "./components/noticeComponents/Account";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosClient from "../axios-clients";
+import { DefaultContext } from "../layouts/DefaultLayout";
+import Overlay from "./Overlay";
 
 export default function Header() {
     const { currentUser } = useStateContext();
+    const { friends } = DefaultContext();
     const [buttonActive, setButtonActive] = useState(null);
     const [isFocused, setIsFocused] = useState(false);
+    const [query, setQuery] = useState("");
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
+    const handleSearch = (value) => {
+        axiosClient.get(`/search/user/?q=${value}`).then((res) => {
+            setData(res.data);
+        });
+    };
+    const debouncedHandleSearch = useCallback(
+        _.debounce(handleSearch, 500),
+        []
+    );
     return (
         <header className="fixed left-0 right-0 top-0 z-10 flex items-center justify-between bg-zinc-900 px-2.5 py-2">
             <div className="h-fit flex-1 flex items-center">
@@ -46,6 +63,18 @@ export default function Header() {
                         placeholder="Search"
                         isFocused={isFocused}
                         setIsFocused={setIsFocused}
+                        data={query}
+                        handleChange={(event) => {
+                            setQuery(event.target.value);
+                            debouncedHandleSearch(event.target.value);
+                        }}
+                        onKeyDown={(event) => {
+                            if (event.key === "Enter") {
+                                setIsFocused(false);
+                                setQuery("");
+                                navigate("/search/all/?q=" + query);
+                            }
+                        }}
                     />
                 </div>
             </div>
@@ -137,6 +166,58 @@ export default function Header() {
                     {buttonActive === "Notify" && <Notify />}
                     {buttonActive === "Account" && <Account />}
                 </div>
+            )}
+            {query && isFocused && (
+                <Overlay
+                    type="overlay"
+                    onClick={() => {
+                        setIsFocused(false);
+                    }}
+                >
+                    <div className="absolute top-0 left-0">
+                        <div className="width-notice p-2 rounded-b-lg bg-zinc-900">
+                            {data.length > 0 ? (
+                                <ul>
+                                    {data.map((item) =>
+                                        friends.some(
+                                            (friend) => friend.id === item.id
+                                        ) ? (
+                                            <li key={item.id}>
+                                                <Link
+                                                    to={`/${item.type}/${item.id}`}
+                                                >
+                                                    <Button
+                                                        imgPath={item.avatar}
+                                                        text={item.name}
+                                                        subText="Friend"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        ) : (
+                                            <li key={item.id}>
+                                                <Link
+                                                    to={`/${item.type}/${item.id}`}
+                                                >
+                                                    <Button
+                                                        imgPath={item.avatar}
+                                                        text={item.name}
+                                                        subText="No friend"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            ) : (
+                                <img
+                                    className="mx-auto"
+                                    src="/assets/icon/loading.gif"
+                                    alt="loading"
+                                />
+                            )}
+                        </div>
+                    </div>
+                </Overlay>
             )}
         </header>
     );

@@ -6,9 +6,10 @@ export default function Input({
     rightIcon = null,
     placeholder = null,
     data,
-    setData,
+    handleChange,
     isFocused,
     setIsFocused,
+    onKeyDown,
 }) {
     const className = classNames(
         "h-full w-full flex items-center bg-zinc-800 pr-2 rounded-full",
@@ -23,11 +24,12 @@ export default function Input({
             {leftIcon && !isFocused && <Button iconClass={leftIcon} />}
             <input
                 value={data}
-                onChange={(e) => setData(e.target.value)}
+                onChange={handleChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                className="flex-1 ml-1 bg-transparent outline-none"
+                className="flex-1 ml-2 bg-transparent outline-none"
                 placeholder={placeholder}
+                onKeyDown={onKeyDown}
             />
             {rightIcon && <Button iconClass={rightIcon} size="small" />}
         </div>
