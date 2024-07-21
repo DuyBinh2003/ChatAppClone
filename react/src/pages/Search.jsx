@@ -2,16 +2,14 @@ import Sidebar from "../layoutComponents/Sidebar";
 import {
     faHome,
     faNewspaper,
-    faPlus,
     faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axiosClient from "../axios-clients";
-import AvatarIcon from "../layoutComponents/components/AvatarIcon";
-import { DefaultContext } from "../layouts/DefaultLayout";
-import Button from "../layoutComponents/components/Button";
 import Post from "../layoutComponents/components/Post";
+import ListUser from "../layoutComponents/components/ListUser";
+import { set } from "lodash";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -19,25 +17,28 @@ const useQuery = () => {
 
 export default function Search() {
     const query = useQuery().get("q");
+    const navigate = useNavigate();
     const { type } = useParams();
     const [resultQuery, setResultQuery] = useState(null);
-    const { friends } = DefaultContext();
 
     const sidebar = [
         {
             name: "All",
             icon: faHome,
-            to: "/search/all/?q=" + query,
+            to: "/search/all?q=" + query,
+            onClick: () => setResultQuery(null),
         },
         {
             name: "User",
             icon: faUserGroup,
-            to: "/search/user/?q=" + query,
+            to: "/search/user?q=" + query,
+            onClick: () => setResultQuery(null),
         },
         {
             name: "Post",
             icon: faNewspaper,
-            to: "/search/post/?q=" + query,
+            to: "/search/post?q=" + query,
+            onClick: () => setResultQuery(null),
         },
     ];
     sidebar.map((item) => {
@@ -49,10 +50,52 @@ export default function Search() {
         axiosClient
             .get(`/search/${type}/?q=${query}&type=${type}`)
             .then((res) => {
-                console.log(res.data);
                 setResultQuery(res.data);
             });
     }, [query, type]);
+
+    const renderResult = () => {
+        if (!resultQuery) {
+            return <p>Loading...</p>;
+        }
+        switch (type) {
+            case "all":
+                return (
+                    <div>
+                        <ListUser
+                            users={resultQuery?.users}
+                            type="box"
+                            onClickSeeAll={() => {
+                                setResultQuery(null);
+                                navigate("/search/user?q=" + query);
+                            }}
+                        />
+                        <ul>
+                            {resultQuery?.posts.map((post) => (
+                                <li key={post.id}>
+                                    <Post data={post} />
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+            case "user":
+                return <ListUser users={resultQuery} />;
+            case "post":
+                return (
+                    <ul>
+                        {resultQuery.map((post) => (
+                            <li key={post.id}>
+                                <Post data={post} />
+                            </li>
+                        ))}
+                    </ul>
+                );
+
+            default:
+                return <ListUser users={resultQuery} type="box" />;
+        }
+    };
 
     return (
         <div className="flex justify-between margin-left-width-notice">
@@ -64,58 +107,7 @@ export default function Search() {
                 </div>
             </div>
             <div className="mx-auto w-1/2 mt-4">
-                {resultQuery?.users && (
-                    <div className="bg-zinc-900 my-2 rounded-md py-2 px-4">
-                        <h1 className="text-2xl">Users</h1>
-                        <ul>
-                            {resultQuery.users.map((user) => (
-                                <li
-                                    key={user.id}
-                                    className="flex items-center my-2"
-                                >
-                                    <div className="flex flex-1">
-                                        <AvatarIcon
-                                            imgPath={user.avatar}
-                                            size="x-max"
-                                        />
-                                        <div className="ml-4">
-                                            <p className="text-lg">
-                                                {user.name}
-                                            </p>
-                                            <p className="text-slate-500">
-                                                {user.email}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    {friends.some(
-                                        (friend) => friend.id === user.id
-                                    ) ? (
-                                        <p>Friend</p>
-                                    ) : (
-                                        <p>No friend</p>
-                                    )}
-                                </li>
-                            ))}
-                            <Button
-                                text="See all ..."
-                                bgColor="gray"
-                                iconClass={faPlus}
-                            />
-                        </ul>
-                    </div>
-                )}
-                {resultQuery?.posts && (
-                    <ul>
-                        {resultQuery.posts.map((post) => (
-                            <li
-                                key={post.id}
-                                className="flex items-center my-2"
-                            >
-                                <Post data={post} />
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                {resultQuery && renderResult()}
             </div>
         </div>
     );

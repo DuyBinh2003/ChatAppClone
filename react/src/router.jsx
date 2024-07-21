@@ -4,7 +4,6 @@ import GuestLayout from "./layouts/GuestLayout";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Users from "./pages/Users";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
@@ -25,10 +24,6 @@ const router = createBrowserRouter([
             {
                 path: "/search/:type",
                 element: <Search />,
-            },
-            {
-                path: "/users",
-                element: <Users />,
             },
         ],
     },

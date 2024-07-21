@@ -19,7 +19,7 @@ export default function Button({
         "flex items-center cursor-pointer",
         ...moreClass,
         {
-            "h-fit w-full p-2 rounded-md ": text, // If text is provided, then apply these classes
+            "h-fit w-full p-2 rounded-md": text, // If text is provided, then apply these classes
             "justify-center rounded-full": !text, // For icon only
         },
         {

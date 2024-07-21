@@ -14,14 +14,26 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(50)->create();
-        User::create([
+        $userTest = [[
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12345678a'),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
-            'avt_img' => 'https://via.placeholder.com/640x480.png/0055ee?text=voluptatem',
-        ]);
+            'avatar' => 'https://via.placeholder.com/640x480.png/00dd00?text=voluptatibus',
+            'background' => 'https://via.placeholder.com/640x480.png/00aa44?text=alias',
+        ], [
+            'name' => 'Binh',
+            'email' => 'binh@gmail.com',
+            'password' => bcrypt('12345678a'),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'avatar' => 'https://via.placeholder.com/640x480.png/00cc00?text=natus',
+            'background' => 'https://via.placeholder.com/640x480.png/0055ee?text=voluptatem',
+        ]];
+        User::factory()->count(50)->create();
+        foreach ($userTest as $user) {
+            User::create($user);
+        }
     }
 }

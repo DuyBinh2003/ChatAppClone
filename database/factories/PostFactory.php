@@ -20,7 +20,7 @@ class PostFactory extends Factory
         return [
             'content' => fake()->text(),
             'user_id' => User::pluck('id')->random(),
-            'image_url' => fake()->imageUrl(),
+            'image' => fake()->imageUrl(),
         ];
     }
 }

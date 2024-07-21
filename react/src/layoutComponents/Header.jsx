@@ -36,7 +36,7 @@ export default function Header() {
     const navigate = useNavigate();
 
     const handleSearch = (value) => {
-        axiosClient.get(`/search/user/?q=${value}`).then((res) => {
+        axiosClient.get(`/search/user?q=${value}`).then((res) => {
             setData(res.data);
         });
     };
@@ -72,7 +72,7 @@ export default function Header() {
                             if (event.key === "Enter") {
                                 setIsFocused(false);
                                 setQuery("");
-                                navigate("/search/all/?q=" + query);
+                                navigate("/search/all?q=" + query);
                             }
                         }}
                     />
