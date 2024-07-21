@@ -1,5 +1,9 @@
-import Button from "./components/Button";
-import AvatarIcon from "./components/AvatarIcon";
+import { useState, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import _ from "lodash";
+import { useStateContext } from "../contexts/ContextProvider";
+import { DefaultContext } from "../layouts/DefaultLayout";
+
 import {
     faBars,
     faBell,
@@ -12,19 +16,21 @@ import {
     faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { useState, useCallback } from "react";
-import _ from "lodash";
-import { useStateContext } from "../contexts/ContextProvider";
-import TippyComponent from "./components/TippyComponent";
-import Input from "./components/Input";
-import Menu from "./components/noticeComponents/Menu";
-import Message from "./components/noticeComponents/Message";
-import Notify from "./components/noticeComponents/Notify";
-import Account from "./components/noticeComponents/Account";
-import { Link, useNavigate } from "react-router-dom";
-import axiosClient from "../axios-clients";
-import { DefaultContext } from "../layouts/DefaultLayout";
-import Overlay from "./Overlay";
+import axiosClient from "~/axios-clients";
+import {
+    Button,
+    AvatarIcon,
+    Input,
+    TippyComponent,
+    Loading,
+} from "~/layoutComponents/components";
+import {
+    Menu,
+    Message,
+    Notify,
+    Account,
+} from "~/layoutComponents/noticeComponents";
+import { Overlay } from "~/layoutComponents";
 
 export default function Header() {
     const { currentUser } = useStateContext();
@@ -209,11 +215,7 @@ export default function Header() {
                                     )}
                                 </ul>
                             ) : (
-                                <img
-                                    className="mx-auto"
-                                    src="/assets/icon/loading.gif"
-                                    alt="loading"
-                                />
+                                <Loading />
                             )}
                         </div>
                     </div>

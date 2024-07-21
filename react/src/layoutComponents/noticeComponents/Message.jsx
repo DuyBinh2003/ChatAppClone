@@ -1,12 +1,12 @@
-import Button from "../Button";
+import Button from "../components/Button";
 import {
     faEllipsis,
     faExpand,
     faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import Input from "../Input";
-import { DefaultContext } from "../../../layouts/DefaultLayout";
-import { useStateContext } from "../../../contexts/ContextProvider";
+import Input from "../components/Input";
+import { DefaultContext } from "../../layouts/DefaultLayout";
+import { useStateContext } from "../../contexts/ContextProvider";
 import { Link } from "react-router-dom";
 
 export default function Message({ setButtonActive }) {

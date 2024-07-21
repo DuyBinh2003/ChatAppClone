@@ -1,11 +1,12 @@
-import { useStateContext } from "../contexts/ContextProvider";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback, useRef } from "react";
-import axiosClient from "../axios-clients";
-import Button from "../layoutComponents/components/Button";
-import AvatarIcon from "../layoutComponents/components/AvatarIcon";
-import Content from "../layoutComponents/Content";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import { Button, AvatarIcon } from "~/layoutComponents/components";
+import { Content } from "~/layoutComponents";
+import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios-clients";
+
 export default function Profile() {
     const { currentUser } = useStateContext();
     const location = useLocation();
@@ -59,7 +60,6 @@ export default function Profile() {
         axiosClient
             .get(`/user-posts/${user.id}?page=${page}`)
             .then((response) => {
-                console.log(response.data);
                 setPosts((prevPosts) => [...prevPosts, ...response.data]);
                 setHasMore(response.data.length > 0);
                 setLoading(false);

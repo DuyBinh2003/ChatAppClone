@@ -5,9 +5,7 @@ import {
     faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import Button from "./Button";
-import Input from "./Input";
-import AvatarIcon from "./AvatarIcon";
+import { Button, Input, AvatarIcon } from "~/layoutComponents/components";
 import axiosClient from "../../axios-clients";
 import { useStateContext } from "../../contexts/ContextProvider";
 import echo from "../../echo";
@@ -69,7 +67,7 @@ export default function Chat({
     return (
         <div className="w-80 height-message flex flex-col justify-between rounded-t-lg bg-zinc-900">
             <header className="flex justify-between items-center border-b border-zinc-700">
-                <Button text={userChat.name} imgPath={userChat.avt_img} />
+                <Button text={userChat.name} imgPath={userChat.avatar} />
                 <div className="flex items-center mx-2">
                     <Button
                         iconClass={faMinus}
@@ -94,7 +92,7 @@ export default function Chat({
                                 key={message.id}
                                 className="flex items-end mx-2 mt-2"
                             >
-                                <AvatarIcon imgPath={userChat.avt_img} />
+                                <AvatarIcon imgPath={userChat.avatar} />
                                 <p className="max-w-44 rounded-2xl bg-zinc-800 px-2 py-1 ml-2">
                                     {message.content}
                                 </p>

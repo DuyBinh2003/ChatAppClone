@@ -1,13 +1,12 @@
-import { DefaultContext } from "../../layouts/DefaultLayout";
-import AvatarIcon from "./AvatarIcon";
-import Button from "./Button";
+import { DefaultContext } from "~/layouts/DefaultLayout";
+import { AvatarIcon, Button } from "~/layoutComponents/components";
 
 export default function ListUser({
     users,
     type = "list",
     onClickSeeAll = null,
 }) {
-    const { friends } = DefaultContext();
+    const { friends, addChatting } = DefaultContext();
     return (
         <div>
             {type === "box" && (
@@ -34,9 +33,18 @@ export default function ListUser({
                                 {friends.some(
                                     (friend) => friend.id === user.id
                                 ) ? (
-                                    <p>Friend</p>
+                                    <Button
+                                        text="Chatting"
+                                        bgColor="blue"
+                                        type="fit"
+                                        onClick={() => addChatting(user)}
+                                    />
                                 ) : (
-                                    <p>No friend</p>
+                                    <Button
+                                        text="Add friend"
+                                        bgColor="blue"
+                                        type="fit"
+                                    />
                                 )}
                             </li>
                         ))}
@@ -69,9 +77,17 @@ export default function ListUser({
                                 </div>
                             </div>
                             {friends.some((friend) => friend.id === user.id) ? (
-                                <p>Friend</p>
+                                <Button
+                                    text="Chatting"
+                                    bgColor="blue"
+                                    type="fit"
+                                />
                             ) : (
-                                <p>No friend</p>
+                                <Button
+                                    text="Add friend"
+                                    bgColor="blue"
+                                    type="fit"
+                                />
                             )}
                         </li>
                     ))}

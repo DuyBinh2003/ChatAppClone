@@ -1,7 +1,5 @@
-import Button from "./Button";
-import AvatarIcon from "./AvatarIcon";
-import Icon from "./Icon";
 import { Link } from "react-router-dom";
+import { AvatarIcon, Button, Icon } from "~/layoutComponents/components";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 import {
@@ -49,14 +47,14 @@ export default function Post({ data }) {
                 <div className="bg-zinc-900 py-2.5 rounded-lg shadow-md mt-2">
                     <div className="flex items-center justify-between px-2.5">
                         <div className="flex items-center">
-                            <Link to={`/user/1`}>
+                            <Link to={`/profile?id=` + user.id}>
                                 <AvatarIcon
                                     imgPath={user.avatar}
                                     size="large"
                                 />
                             </Link>
                             <div className="ml-2">
-                                <Link to={`/user/1`}>
+                                <Link to={`/profile?id=` + user.id}>
                                     <h2 className="text-lg font-semibold hover:underline hover:underline-offset-1">
                                         {user.name}
                                     </h2>

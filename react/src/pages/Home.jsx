@@ -1,12 +1,11 @@
-import Button from "../layoutComponents/components/Button";
-import Content from "../layoutComponents/Content";
-import Sidebar from "../layoutComponents/Sidebar";
-import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
-import axiosClient from "../axios-clients";
-import { DefaultContext } from "../layouts/DefaultLayout";
-import { useStateContext } from "../contexts/ContextProvider";
-
 import { useEffect, useState, useRef, useCallback } from "react";
+import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
+
+import { useStateContext } from "../contexts/ContextProvider";
+import { DefaultContext } from "../layouts/DefaultLayout";
+import { Button } from "~/layoutComponents/components";
+import { Sidebar, Content } from "~/layoutComponents";
+import axiosClient from "../axios-clients";
 
 export default function Home() {
     const { currentUser } = useStateContext();
@@ -95,7 +94,12 @@ export default function Home() {
                         </div>
                     </div>
                     {friends && (
-                        <Sidebar data={friends} onClickItem={addChatting} />
+                        <Sidebar
+                            data={friends.map((friend) => ({
+                                ...friend,
+                                onClick: () => addChatting(friend),
+                            }))}
+                        />
                     )}
                 </div>
             </nav>

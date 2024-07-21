@@ -1,7 +1,7 @@
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
-import Button from "../Button";
-import axiosClient from "../../../axios-clients";
-import { useStateContext } from "../../../contexts/ContextProvider";
+import Button from "../components/Button";
+import axiosClient from "../../axios-clients";
+import { useStateContext } from "../../contexts/ContextProvider";
 
 export default function Account() {
     const { currentUser, setCurrentUser, setToken } = useStateContext();

@@ -1,15 +1,14 @@
-import Sidebar from "../layoutComponents/Sidebar";
+import { useEffect, useState } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
     faHome,
     faNewspaper,
     faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import axiosClient from "../axios-clients";
-import Post from "../layoutComponents/components/Post";
-import ListUser from "../layoutComponents/components/ListUser";
-import { set } from "lodash";
+
+import axiosClient from "~/axios-clients";
+import { Sidebar } from "~/layoutComponents";
+import { ListUser, Post } from "~/layoutComponents/components";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);

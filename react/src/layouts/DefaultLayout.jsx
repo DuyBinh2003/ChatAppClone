@@ -3,9 +3,9 @@ import { useState, createContext, useContext } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 
 import Header from "../layoutComponents/Header";
-import Chat from "../layoutComponents/components/Chat";
-import TippyComponent from "../layoutComponents/components/TippyComponent";
-import Button from "../layoutComponents/components/Button";
+import Chat from "~/layoutComponents/noticeComponents/Chat";
+import TippyComponent from "~/layoutComponents/components/TippyComponent";
+import Button from "~/layoutComponents/components/Button";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const DefaultLayoutContext = createContext({
@@ -93,7 +93,7 @@ export default function DefaultLayout() {
                                         >
                                             <div className="btn-container">
                                                 <Button
-                                                    imgPath={friend.avt_img}
+                                                    imgPath={friend.avatar}
                                                     size="large"
                                                     onClick={() => {
                                                         changeChattingState(

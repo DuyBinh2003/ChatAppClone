@@ -1,4 +1,4 @@
-import Post from "./components/Post";
+import { Post } from "~/layoutComponents/components";
 
 export default function Content({ posts, loading, lastPostRef }) {
     return (

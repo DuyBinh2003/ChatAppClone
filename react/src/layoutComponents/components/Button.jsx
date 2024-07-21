@@ -1,5 +1,4 @@
-import AvatarIcon from "./AvatarIcon";
-import Icon from "./Icon";
+import { Icon, AvatarIcon } from "~/layoutComponents/components";
 import classNames from "classnames";
 
 export default function Button({
@@ -19,7 +18,7 @@ export default function Button({
         "flex items-center cursor-pointer",
         ...moreClass,
         {
-            "h-fit w-full p-2 rounded-md": text, // If text is provided, then apply these classes
+            "h-fit p-2 rounded-md": text, // If text is provided, then apply these classes
             "justify-center rounded-full": !text, // For icon only
         },
         {
@@ -31,15 +30,19 @@ export default function Button({
         {
             "bg-zinc-800 hover:bg-zinc-700": bgColor === "gray",
             "hover:bg-zinc-800 bg-transparent": bgColor === "default",
-            "text-blue-500": isActived,
+            "text-blue-500 bg-zinc-800": isActived,
             "text-slate-200": !isActived,
+            "bg-blue-800 hover:bg-blue:700": bgColor === "blue",
         },
         {
+            "w-full": type === "default" && text,
             "w-24 rounded-md": type === "square",
+            "w-fit": type === "fit",
         }
     );
-    const textClassName = classNames("ml-2", {
+    const textClassName = classNames({
         "flex-1": subText,
+        "ml-2": type !== "fit",
     });
 
     return (
