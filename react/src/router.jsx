@@ -1,6 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import { DefaultLayout, GuestLayout } from "./layouts";
-import { Home, Profile, Search, Login, Signup, NotFound } from "./pages";
+import {
+    Home,
+    Profile,
+    Search,
+    Login,
+    Signup,
+    NotFound,
+    Friend,
+} from "./pages";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +26,14 @@ const router = createBrowserRouter([
             {
                 path: "/search/:type",
                 element: <Search />,
+            },
+            {
+                path: "friends/:type",
+                element: <Friend />,
+            },
+            {
+                path: "/friends",
+                element: <Friend />,
             },
         ],
     },

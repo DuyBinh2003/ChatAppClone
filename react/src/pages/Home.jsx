@@ -27,6 +27,7 @@ export default function Home() {
             id: 2,
             name: "Friend",
             avatar: "",
+            to: "/friends",
         },
     ];
 

@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import axiosClient from "~/axios-clients";
-import { Sidebar } from "~/layoutComponents";
+import { SidebarLayout } from "~/layouts";
 import { ListUser, Post } from "~/layoutComponents/components";
 
 const useQuery = () => {
@@ -22,18 +22,21 @@ export default function Search() {
 
     const sidebar = [
         {
+            id: 1,
             name: "All",
             icon: faHome,
             to: "/search/all?q=" + query,
             onClick: () => setResultQuery(null),
         },
         {
+            id: 2,
             name: "User",
             icon: faUserGroup,
             to: "/search/user?q=" + query,
             onClick: () => setResultQuery(null),
         },
         {
+            id: 3,
             name: "Post",
             icon: faNewspaper,
             to: "/search/post?q=" + query,
@@ -97,17 +100,8 @@ export default function Search() {
     };
 
     return (
-        <div className="flex justify-between margin-left-width-notice">
-            <div className="fixed top-14 left-0 bottom-0 width-notice px-2 bg-zinc-900">
-                <h1 className="text-2xl">Result query</h1>
-                <hr className="my-2" />
-                <div className="h-full scrollbar-webkit overflow-y-scroll scroll-track-gray">
-                    <Sidebar data={sidebar} />
-                </div>
-            </div>
-            <div className="mx-auto w-1/2 mt-4">
-                {resultQuery && renderResult()}
-            </div>
-        </div>
+        <SidebarLayout sidebar={sidebar} title="Search query">
+            {resultQuery && renderResult()}
+        </SidebarLayout>
     );
 }
