@@ -38,6 +38,9 @@ export default function Button({
             "w-full": type === "default" && text,
             "w-24 rounded-md": type === "square",
             "w-fit": type === "fit",
+        },
+        {
+            "cursor-not-allowed bg-zinc-500 hover:bg-zinc-500": isDisabled,
         }
     );
     const textClassName = classNames({

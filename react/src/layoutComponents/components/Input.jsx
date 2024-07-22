@@ -8,7 +8,7 @@ export default function Input({
     data,
     handleChange,
     isFocused,
-    setIsFocused,
+    setIsFocused = null,
     onKeyDown,
 }) {
     const className = classNames(
@@ -25,8 +25,12 @@ export default function Input({
             <input
                 value={data}
                 onChange={handleChange}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+                onFocus={() => {
+                    setIsFocused && setIsFocused(true);
+                }}
+                onBlur={() => {
+                    setIsFocused && setIsFocused(false);
+                }}
                 className="flex-1 ml-2 bg-transparent outline-none"
                 placeholder={placeholder}
                 onKeyDown={onKeyDown}

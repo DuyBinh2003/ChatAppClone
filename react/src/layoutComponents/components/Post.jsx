@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AvatarIcon, Button, Icon } from "~/layoutComponents/components";
+import { AvatarIcon, Button, Icon, Input } from "~/layoutComponents/components";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 import {
@@ -15,7 +15,6 @@ import {
     faShareFromSquare,
     faComment as farComment,
 } from "@fortawesome/free-regular-svg-icons";
-import Input from "./Input";
 
 export default function Post({ data }) {
     const { user, release, content, image, post_attributes, comments } = data;

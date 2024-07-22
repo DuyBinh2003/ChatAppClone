@@ -49,6 +49,7 @@ export default function Chat({
         setMessageInput("");
         setMessages((prevMessages) => [
             {
+                id: prevMessages[0].id + 1,
                 content: messageInput,
                 user_id_send: currentUser.id,
                 user_id_receive: userChat.id,
@@ -84,11 +85,11 @@ export default function Chat({
                     />
                 </div>
             </header>
-            <div className="flex-1 flex flex-col-reverse pb-1 overflow-y-scroll scrollbar-webkit scrollbar-hover">
+            <ul className="flex-1 flex flex-col-reverse pb-1 overflow-y-scroll scrollbar-webkit scrollbar-hover">
                 {messages?.length > 0 &&
                     messages.map((message) => {
                         return message.user_id_send === userChat.id ? (
-                            <div
+                            <li
                                 key={message.id}
                                 className="flex items-end mx-2 mt-2"
                             >
@@ -96,23 +97,30 @@ export default function Chat({
                                 <p className="max-w-44 rounded-2xl bg-zinc-800 px-2 py-1 ml-2">
                                     {message.content}
                                 </p>
-                            </div>
+                            </li>
                         ) : (
-                            <div
+                            <li
                                 key={message.id}
                                 className="self-end mx-2 mt-2 max-w-60 rounded-2xl bg-blue-400 px-2 py-1 ml-2"
                             >
                                 {message.content}
-                            </div>
+                            </li>
                         );
                     })}
-            </div>
+            </ul>
             <footer className="flex items-center p-1 border-t border-zinc-700">
                 <div className="flex-1 mr-2">
                     <Input
                         rightIcon={faFaceSmile}
                         data={messageInput}
-                        setData={setMessageInput}
+                        handleChange={(e) => {
+                            setMessageInput(e.target.value);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                sendMessage();
+                            }
+                        }}
                     />
                 </div>
                 <Button iconClass={faPaperPlane} onClick={sendMessage} />

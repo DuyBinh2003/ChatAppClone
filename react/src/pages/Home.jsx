@@ -1,15 +1,24 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import {
+    faEllipsis,
+    faFaceSmile,
+    faImages,
+    faSearch,
+    faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { useStateContext } from "../contexts/ContextProvider";
 import { DefaultContext } from "../layouts/DefaultLayout";
 import { Button } from "~/layoutComponents/components";
 import { Sidebar, Content } from "~/layoutComponents";
+import { CreatePost } from "~/layoutComponents/formComponents";
 import axiosClient from "../axios-clients";
 
 export default function Home() {
     const { currentUser } = useStateContext();
     const { friends, setFriends, addChatting } = DefaultContext();
+    const navigate = useNavigate();
 
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -18,7 +27,7 @@ export default function Home() {
 
     const leftSidebar = [
         {
-            id: currentUser.id,
+            id: 1,
             name: currentUser.name,
             avatar: currentUser.avatar,
             to: "/profile/?id=" + currentUser.id,
@@ -78,6 +87,7 @@ export default function Home() {
             </nav>
             <main className="flex justify-center">
                 <div className="w-2/5 pt-2">
+                    <CreatePost />
                     <Content
                         posts={posts}
                         lastPostRef={lastPostRef}
