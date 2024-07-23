@@ -6,12 +6,14 @@ import { Button, AvatarIcon } from "~/layoutComponents/components";
 import { Content } from "~/layoutComponents";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-clients";
+import { CreatePost } from "~/layoutComponents/formComponents";
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+};
 export default function Profile() {
     const { currentUser } = useStateContext();
-    const location = useLocation();
-    const query = new URLSearchParams(location.search);
-    const userId = query.get("id");
+    const userId = useQuery().get("id");
 
     const [user, setUser] = useState({});
     const [userFriends, setUserFriends] = useState([]);
@@ -115,6 +117,7 @@ export default function Profile() {
                     />
                 </div>
                 <div className="flex-1">
+                    <CreatePost />
                     <Content
                         posts={posts}
                         lastPostRef={lastPostRef}

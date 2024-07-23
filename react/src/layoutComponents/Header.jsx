@@ -175,7 +175,7 @@ export default function Header() {
             )}
             {query && isFocused && (
                 <Overlay
-                    type="overlay"
+                    type="overlay-header"
                     onClick={() => {
                         setIsFocused(false);
                     }}
