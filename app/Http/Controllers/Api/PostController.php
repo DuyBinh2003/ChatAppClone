@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -47,6 +49,29 @@ class PostController extends Controller
         $paginatedPosts = $this->addAttributes($paginatedPosts);
 
         return response()->json($paginatedPosts);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Lưu trữ hình ảnh và lấy đường dẫn
+        $imagePath = $request->file('image')->store('images', 'public');
+
+        // Lấy URL của hình ảnh
+        $imageUrl = Storage::url($imagePath);
+
+        // Tạo bài đăng với đường dẫn hình ảnh
+        $post = Post::create([
+            "user_id" => $request->user()->id,
+            'content' => $request->content,
+            'image' => $imageUrl,
+        ]);
+
+        return response()->json($post, 201);
     }
 
     public static function addAttributes($post)

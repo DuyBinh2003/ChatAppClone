@@ -22,9 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{userId}', [UserController::class, 'getUser']);
     });
 
-
-    Route::get('/posts', [PostController::class, 'index']);
-    Route::get('/user-posts/{userId}', [PostController::class, 'getUserPosts']);
+    Route::prefix('posts')->group(function () {
+        Route::get("/", [PostController::class, 'index']);
+        Route::get('/{userId}', [PostController::class, 'getUserPosts']);
+        Route::post('/', [PostController::class, 'store']);
+    });
     Route::get('/friends/{userId}', [FriendController::class, 'index']);
     Route::get('/messages/{friendId}', [MessageController::class, 'getListMessages']);
     Route::post('/message/{friendId}', [MessageController::class, 'addMessage']);

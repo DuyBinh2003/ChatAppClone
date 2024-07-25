@@ -15,7 +15,7 @@ export default function Button({
     onClick = () => {},
 }) {
     const className = classNames(
-        "flex items-center cursor-pointer",
+        "flex items-center",
         ...moreClass,
         {
             "h-fit p-2 rounded-md": text, // If text is provided, then apply these classes
@@ -41,6 +41,7 @@ export default function Button({
         },
         {
             "cursor-not-allowed bg-zinc-500 hover:bg-zinc-500": isDisabled,
+            "cursor-pointer": !isDisabled,
         }
     );
     const textClassName = classNames({
@@ -49,7 +50,7 @@ export default function Button({
     });
 
     return (
-        <div className={className} onClick={!isDisabled && onClick}>
+        <div className={className} onClick={!isDisabled ? onClick : null}>
             {iconClass && <Icon iconClass={iconClass} size={size} />}
             {imgPath && <AvatarIcon imgPath={imgPath} size={size} />}
             {text && (

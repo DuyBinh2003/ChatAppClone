@@ -60,7 +60,7 @@ export default function Profile() {
 
     useEffect(() => {
         axiosClient
-            .get(`/user-posts/${user.id}?page=${page}`)
+            .get(`/posts/${user.id}?page=${page}`)
             .then((response) => {
                 setPosts((prevPosts) => [...prevPosts, ...response.data]);
                 setHasMore(response.data.length > 0);
