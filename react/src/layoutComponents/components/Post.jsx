@@ -134,7 +134,7 @@ export default function Post({ data }) {
                             )}
                         </div>
                     </div>
-                    <div className="mt-2 flex justify-between py-1 mx-2.5 border-t border-slate-700">
+                    <div className="mt-2 flex justify-between py-1 mx-2.5 border-y-2 border-slate-700">
                         <Button
                             text="Like"
                             iconClass={faThumbsUp}
@@ -157,7 +157,7 @@ export default function Post({ data }) {
                         />
                     </div>
                     {comments.length > 0 && (
-                        <div className="flex mx-2.5 py-2 border-t border-slate-700">
+                        <div className="flex mx-2.5 py-2">
                             <Button imgPath={comments[0].user.avatar} />
                             <div className="flex-1 ml-2 flex items-center">
                                 <div>
