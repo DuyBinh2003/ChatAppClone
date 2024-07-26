@@ -15,7 +15,7 @@ import { AvatarIcon, Button, Icon } from "~/layoutComponents/components";
 import { useStateContext } from "~/contexts/ContextProvider";
 import axiosClient from "~/axios-clients";
 
-export default function CreatePost() {
+export default function CreatePost({ setPrevPosts }) {
     const { currentUser } = useStateContext();
     const navigate = useNavigate();
     const [isCreatePost, setIsCreatePost] = useState(false);
@@ -98,8 +98,6 @@ export default function CreatePost() {
                                     size="large"
                                     onClick={() => {
                                         setIsCreatePost(false);
-                                        setAttachment(null);
-                                        setPayLoad({});
                                     }}
                                 />
                             </div>
@@ -195,10 +193,24 @@ export default function CreatePost() {
                                                     "multipart/form-data",
                                             },
                                         })
-                                        .then(() => {
+                                        .then((res) => {
                                             setIsCreatePost(false);
                                             setAttachment(null);
                                             setPayLoad({});
+                                            setPrevPosts((prevPosts) => {
+                                                return [
+                                                    {
+                                                        ...res.data,
+                                                        user: currentUser,
+                                                        comments: [],
+                                                        post_attributes: [],
+                                                    },
+                                                    ...prevPosts.slice(
+                                                        0,
+                                                        prevPosts.length - 1
+                                                    ),
+                                                ];
+                                            });
                                         });
                                 }}
                             />

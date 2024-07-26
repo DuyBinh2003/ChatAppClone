@@ -1,12 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-    faEllipsis,
-    faFaceSmile,
-    faImages,
-    faSearch,
-    faVideo,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { useStateContext } from "../contexts/ContextProvider";
 import { DefaultContext } from "../layouts/DefaultLayout";
@@ -18,7 +11,6 @@ import axiosClient from "../axios-clients";
 export default function Home() {
     const { currentUser } = useStateContext();
     const { friends, setFriends, addChatting } = DefaultContext();
-    const navigate = useNavigate();
 
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -54,7 +46,7 @@ export default function Home() {
         },
         [loading, hasMore]
     );
-
+    console.log(posts);
     useEffect(() => {
         axiosClient
             .get(`/posts?page=${page}`)
@@ -87,7 +79,7 @@ export default function Home() {
             </nav>
             <main className="flex justify-center">
                 <div className="w-2/5 pt-2">
-                    <CreatePost />
+                    <CreatePost setPrevPosts={setPosts} />
                     <Content
                         posts={posts}
                         lastPostRef={lastPostRef}

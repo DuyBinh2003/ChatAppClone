@@ -1359,13 +1359,13 @@ video {
 }
 
 .scrollbar-webkit::-webkit-scrollbar-thumb {
-  background-color: red;
+  background-color: gray;
   display: none;
   border-radius: 40px;
 }
 
 .scrollbar-webkit::-webkit-scrollbar-thumb:hover {
-  background-color: red;
+  background-color: darkgray;
 }
 
 .scrollbar-webkit::-webkit-scrollbar-track {

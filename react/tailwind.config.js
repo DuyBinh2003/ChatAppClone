@@ -12,12 +12,12 @@ export default {
                         width: "8px",
                     },
                     "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "red",
+                        backgroundColor: "gray",
                         display: "none",
                         borderRadius: "40px",
                     },
                     "&::-webkit-scrollbar-thumb:hover": {
-                        backgroundColor: "red",
+                        backgroundColor: "darkgray",
                     },
                     "&::-webkit-scrollbar-track": {
                         backgroundColor: "transparent",

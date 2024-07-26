@@ -6,9 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { Button, Input, AvatarIcon } from "~/layoutComponents/components";
-import axiosClient from "../../axios-clients";
-import { useStateContext } from "../../contexts/ContextProvider";
-import echo from "../../echo";
+import axiosClient from "~/axios-clients";
+import { useStateContext } from "~/contexts/ContextProvider";
+import echo from "~/echo";
 
 export default function Chat({
     userChat,
@@ -20,14 +20,14 @@ export default function Chat({
     const [messageInput, setMessageInput] = useState("");
 
     useEffect(() => {
-        echo.channel(`message.${currentUser.id}`).listen(
+        echo.private(`message.${currentUser.id}`).listen(
             "NewMessage",
             (data) => {
                 setMessages((prevMessages) => [data, ...prevMessages]);
             }
         );
         return () => {
-            echo.leaveChannel(`message.${currentUser.id}`);
+            echo.leave(`message.${currentUser.id}`);
         };
     }, []);
 

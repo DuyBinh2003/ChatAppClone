@@ -74,11 +74,13 @@ export default function Post({ data }) {
                     <p className="mt-2 text-md text-gray-200 px-2.5">
                         {content}
                     </p>
-                    <img
-                        className="mt-2 w-full h-auto"
-                        src={image}
-                        alt="Post"
-                    />
+                    {image && (
+                        <img
+                            className="mt-2 w-full h-auto"
+                            src={image}
+                            alt="Post"
+                        />
+                    )}
                     <div className="p-2.5 flex items-center justify-between">
                         {post_attributes.filter((a) => a.type !== "share")
                             .length > 0 ? (
