@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Post;
+use App\Events\CreatePostEvent;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -55,20 +56,28 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Store the uploaded image in the public disk
-        $imagePath = $request->file('image')->store('images', 'public');
+        if ($request->hasFile('image')) {
+            // Store the uploaded image in the public disk
+            $imagePath = $request->file('image')->store('images', 'public');
 
-        // Get the URL to the stored image
-        $imageUrl = Storage::disk('public')->url($imagePath);
+            // Get the URL to the stored image
+            $imageUrl = Storage::disk('public')->url($imagePath);
+        } else {
+            $imageUrl = null;
+        }
 
-        $post = Post::create([
-            "user_id" => $request->user()->id,
+        $post = new Post([
+            'user_id' => $request->user()->id,
             'content' => $request->content,
             'image' => $imageUrl,
         ]);
+        $post->save();
+
+        $friends = FriendController::getListFriend($request->user()->id);
+        event(new CreatePostEvent($post, $friends));
 
         return response()->json($post, 201);
     }

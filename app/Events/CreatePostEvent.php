@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewMessage implements ShouldBroadcast
+class CreatePostEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,10 +19,13 @@ class NewMessage implements ShouldBroadcast
      *
      * @return void
      */
-    public $message;
-    public function __construct($message)
+    public $post;
+    public $friends;
+
+    public function __construct($post, $friends)
     {
-        $this->message = $message;
+        $this->post = $post;
+        $this->friends = $friends;
     }
 
     /**
@@ -33,16 +35,8 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('message.' . $this->message->user_id_receive);
-    }
-    public function broadcastWith()
-    {
-        return [
-            'id' => $this->message->id,
-            'content' => $this->message->content,
-            'user_id_send' => $this->message->user_id_send,
-            'user_id_receive' => $this->message->user_id_receive,
-            'created_at' => $this->message->created_at,
-        ];
+        return array_map(function ($friendId) {
+            return new PrivateChannel('private-user.' . $friendId);
+        }, $this->friends);
     }
 }
