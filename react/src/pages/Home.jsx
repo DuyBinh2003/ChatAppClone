@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { useStateContext } from "../contexts/ContextProvider";
-import { DefaultContext } from "../layouts/DefaultLayout";
+import { useStateContext } from "~/contexts/ContextProvider";
+import { DefaultContext } from "~/layouts/DefaultLayout";
 import { Button } from "~/layoutComponents/components";
 import { Sidebar, Content } from "~/layoutComponents";
 import { CreatePost } from "~/layoutComponents/formComponents";
-import axiosClient from "../axios-clients";
+import axiosClient from "~/axios-clients";
 
 export default function Home() {
     const { currentUser } = useStateContext();
@@ -46,7 +46,6 @@ export default function Home() {
         },
         [loading, hasMore]
     );
-    console.log(posts);
     useEffect(() => {
         axiosClient
             .get(`/posts?page=${page}`)
@@ -84,6 +83,7 @@ export default function Home() {
                         posts={posts}
                         lastPostRef={lastPostRef}
                         loading={loading}
+                        setPosts={setPosts}
                     />
                 </div>
             </main>

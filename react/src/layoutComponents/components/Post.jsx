@@ -16,7 +16,7 @@ import {
     faComment as farComment,
 } from "@fortawesome/free-regular-svg-icons";
 
-export default function Post({ data }) {
+export default function Post({ data, removePost }) {
     const { user, release, content, image, post_attributes, comments } = data;
     const { currentUser } = useStateContext();
     const findTopTwoType = (arr) => {
@@ -68,7 +68,7 @@ export default function Post({ data }) {
                                 iconClass={faEllipsis}
                                 moreClass={["mr-2"]}
                             />
-                            <Button iconClass={faXmark} />
+                            <Button iconClass={faXmark} onClick={removePost} />
                         </div>
                     </div>
                     <p className="mt-2 text-md text-gray-200 px-2.5">

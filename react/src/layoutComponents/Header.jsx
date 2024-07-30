@@ -152,15 +152,25 @@ export default function Header() {
                     />
                 </TippyComponent>
                 <TippyComponent content="Account" placement="bottom">
-                    <Button
-                        imgPath={currentUser.avatar}
-                        size="large"
-                        onClick={() => {
-                            setButtonActive((prev) =>
-                                prev === "Account" ? null : "Account"
-                            );
-                        }}
-                    />
+                    <div className="btn-container">
+                        <Button
+                            imgPath={currentUser.avatar}
+                            size="large"
+                            onClick={() => {
+                                setButtonActive((prev) =>
+                                    prev === "Account" ? null : "Account"
+                                );
+                            }}
+                        />
+                        <div className="icon-sub hidden">
+                            <Button
+                                text="15"
+                                type="round"
+                                size="small"
+                                bgColor="red"
+                            />
+                        </div>
+                    </div>
                 </TippyComponent>
             </div>
             {buttonActive !== null && (
@@ -180,7 +190,7 @@ export default function Header() {
                         setIsFocused(false);
                     }}
                 >
-                    <div className="absolute top-0 left-0">
+                    <div id="children" className="absolute top-0 left-0">
                         <div className="width-notice p-2 rounded-b-lg bg-zinc-900">
                             {data.length > 0 ? (
                                 <ul>
@@ -189,27 +199,31 @@ export default function Header() {
                                             (friend) => friend.id === item.id
                                         ) ? (
                                             <li key={item.id}>
-                                                <Link
-                                                    to={`/${item.type}/${item.id}`}
-                                                >
-                                                    <Button
-                                                        imgPath={item.avatar}
-                                                        text={item.name}
-                                                        subText="Friend"
-                                                    />
-                                                </Link>
+                                                <Button
+                                                    imgPath={item.avatar}
+                                                    text={item.name}
+                                                    subText="Friend"
+                                                    onClick={() => {
+                                                        navigate(
+                                                            "/profile?id=" +
+                                                                item.id
+                                                        );
+                                                    }}
+                                                />
                                             </li>
                                         ) : (
                                             <li key={item.id}>
-                                                <Link
-                                                    to={`/${item.type}/${item.id}`}
-                                                >
-                                                    <Button
-                                                        imgPath={item.avatar}
-                                                        text={item.name}
-                                                        subText="No friend"
-                                                    />
-                                                </Link>
+                                                <Button
+                                                    imgPath={item.avatar}
+                                                    text={item.name}
+                                                    subText="No friend"
+                                                    onClick={() => {
+                                                        navigate(
+                                                            "/profile?id=" +
+                                                                item.id
+                                                        );
+                                                    }}
+                                                />
                                             </li>
                                         )
                                     )}

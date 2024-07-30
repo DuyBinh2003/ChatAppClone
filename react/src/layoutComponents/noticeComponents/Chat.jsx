@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { Button, Input, AvatarIcon } from "~/layoutComponents/components";
 import axiosClient from "~/axios-clients";
 import { useStateContext } from "~/contexts/ContextProvider";
-import echo from "~/echo";
+import usePusher from "~/hooks/usePusher";
 
 export default function Chat({
     userChat,
@@ -19,18 +19,13 @@ export default function Chat({
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState("");
 
-    useEffect(() => {
-        echo.private(`message.${currentUser.id}`).listen(
-            "NewMessage",
-            (data) => {
-                setMessages((prevMessages) => [data, ...prevMessages]);
-            }
-        );
-        return () => {
-            echo.leave(`message.${currentUser.id}`);
-        };
-    }, []);
+    const handleNewMessage = (data) => {
+        setMessages((prevMessages) => [data, ...prevMessages]);
+    };
 
+    usePusher("message.51", "NewMessage", handleNewMessage);
+
+    console.log(messages);
     useEffect(() => {
         axiosClient
             .get(`/messages/${userChat.id}`)

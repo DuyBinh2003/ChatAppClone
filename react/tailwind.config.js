@@ -29,14 +29,10 @@ export default {
                 ".btn-container": {
                     position: "relative",
                 },
-                ".icon-hidden": {
-                    display: "none",
+                ".icon-sub": {
                     position: "absolute",
                     top: "-2px",
                     right: "-2px",
-                },
-                ".btn-container:hover .icon-hidden": {
-                    display: "block",
                 },
                 ".hidden": {
                     display: "none",

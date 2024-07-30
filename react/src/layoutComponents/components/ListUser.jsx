@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { DefaultContext } from "~/layouts/DefaultLayout";
 import { AvatarIcon, Button } from "~/layoutComponents/components";
 
@@ -6,6 +8,7 @@ export default function ListUser({
     type = "list",
     onClickSeeAll = null,
 }) {
+    const navigate = useNavigate();
     const { friends, addChatting } = DefaultContext();
     return (
         <div>
@@ -19,10 +22,17 @@ export default function ListUser({
                                 className="flex items-center my-2"
                             >
                                 <div className="flex flex-1">
-                                    <AvatarIcon
-                                        imgPath={user.avatar}
-                                        size="x-max"
-                                    />
+                                    <div
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                            navigate("/profile?id=" + user.id);
+                                        }}
+                                    >
+                                        <AvatarIcon
+                                            imgPath={user.avatar}
+                                            size="x-max"
+                                        />
+                                    </div>
                                     <div className="ml-4">
                                         <p className="text-lg">{user.name}</p>
                                         <p className="text-slate-500">
@@ -65,10 +75,17 @@ export default function ListUser({
                             className="flex items-center bg-zinc-900 mb-4 rounded-md py-2 px-4"
                         >
                             <div className="flex flex-1">
-                                <AvatarIcon
-                                    imgPath={user.avatar}
-                                    size="x-max"
-                                />
+                                <div
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                        navigate("/profile?id=" + user.id);
+                                    }}
+                                >
+                                    <AvatarIcon
+                                        imgPath={user.avatar}
+                                        size="x-max"
+                                    />
+                                </div>
                                 <div className="ml-4">
                                     <p className="text-lg">{user.name}</p>
                                     <p className="text-slate-500">

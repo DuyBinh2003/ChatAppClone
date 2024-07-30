@@ -91,7 +91,7 @@ export default function DefaultLayout() {
                                             content={friend.name}
                                             placement="left"
                                         >
-                                            <div className="btn-container">
+                                            <div className="btn-container hover-element">
                                                 <Button
                                                     imgPath={friend.avatar}
                                                     size="large"
@@ -102,7 +102,7 @@ export default function DefaultLayout() {
                                                         );
                                                     }}
                                                 />
-                                                <div className="icon-hidden">
+                                                <div className="icon-sub hidden">
                                                     <Button
                                                         iconClass={faXmark}
                                                         size="small"

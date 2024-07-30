@@ -7,7 +7,7 @@ export default function Overlay({
     bgColor = "transparent",
 }) {
     const handleOnclick = (e) => {
-        if (e.target.closest(".absolute")) {
+        if (e.target.closest("#children")) {
             return;
         }
         onClick();

@@ -1038,6 +1038,11 @@ video {
   background-color: rgb(79 70 229 / var(--tw-bg-opacity));
 }
 
+.bg-red-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(153 27 27 / var(--tw-bg-opacity));
+}
+
 .bg-transparent {
   background-color: transparent;
 }
@@ -1065,6 +1070,11 @@ video {
 .bg-zinc-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(24 24 27 / var(--tw-bg-opacity));
+}
+
+.bg-red-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1380,15 +1390,10 @@ video {
   position: relative;
 }
 
-.icon-hidden {
-  display: none;
+.icon-sub {
   position: absolute;
   top: -2px;
   right: -2px;
-}
-
-.btn-container:hover .icon-hidden {
-  display: block;
 }
 
 .hidden {

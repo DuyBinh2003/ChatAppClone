@@ -18,8 +18,8 @@ export default function Button({
         "flex items-center",
         ...moreClass,
         {
-            "h-fit p-2 rounded-md": text, // If text is provided, then apply these classes
-            "justify-center rounded-full": !text, // For icon only
+            "h-fit p-2 rounded-md": text && type !== "round", // If text is provided, then apply these classes
+            "justify-center rounded-full": !text || type === "round", // For icon only
         },
         {
             "w-8 h-8": size === "default",
@@ -33,6 +33,7 @@ export default function Button({
             "text-blue-500 bg-zinc-800": isActived,
             "text-slate-200": !isActived,
             "bg-blue-800 hover:bg-blue:700": bgColor === "blue",
+            "bg-red-700": bgColor === "red",
         },
         {
             "w-full": type === "default" && text,
@@ -46,7 +47,8 @@ export default function Button({
     );
     const textClassName = classNames({
         "flex-1": subText,
-        "ml-2": type !== "fit",
+        "ml-2": type !== "fit" && type !== "round",
+        "text-center text-xs": type === "round",
     });
 
     return (
