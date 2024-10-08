@@ -19,11 +19,9 @@ export default function Chat({
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState("");
 
-    const handleNewMessage = (data) => {
+    usePusher("message" + currentUser.id, "MessageCreated", (data) => {
         setMessages((prevMessages) => [data, ...prevMessages]);
-    };
-
-    usePusher("message.51", "NewMessage", handleNewMessage);
+    });
 
     useEffect(() => {
         axiosClient

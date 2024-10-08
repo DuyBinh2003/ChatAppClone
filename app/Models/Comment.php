@@ -29,4 +29,12 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    /**
+     * Get the notifications for the comment.
+     */
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'reference');
+    }
 }

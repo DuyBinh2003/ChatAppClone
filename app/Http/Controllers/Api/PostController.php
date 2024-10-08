@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Events\PostCreated;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Mockery\Matcher\Not;
 
 class PostController extends Controller
 {
@@ -78,7 +79,9 @@ class PostController extends Controller
         $post->save();
         $post->user = $post->user;
         $friends = FriendController::getListFriend($request->user()->id);
-        PostCreated::dispatch($post, $friends);
+        foreach ($friends as $friend) {
+            NotificationController::store($friend->id, $post->id, 'post');
+        }
 
         return response()->json($post, 201);
     }

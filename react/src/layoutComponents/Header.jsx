@@ -1,9 +1,7 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import _ from "lodash";
 import { useStateContext } from "../contexts/ContextProvider";
-import { DefaultContext } from "../layouts/DefaultLayout";
-
 import {
     faBars,
     faBell,
@@ -16,7 +14,9 @@ import {
     faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { DefaultContext } from "../layouts/DefaultLayout";
 import axiosClient from "~/axios-clients";
+import usePusher from "~/hooks/usePusher";
 import {
     Button,
     AvatarIcon,
@@ -39,7 +39,36 @@ export default function Header() {
     const [isFocused, setIsFocused] = useState(false);
     const [query, setQuery] = useState("");
     const [data, setData] = useState([]);
+    const [noticeNumber, setNoticeNumber] = useState({
+        messages: 0,
+        notifications: 0,
+    });
     const navigate = useNavigate();
+
+    useEffect(() => {
+        axiosClient.get("/notifications/numberNotice").then((res) => {
+            setNoticeNumber({
+                ...noticeNumber,
+                notifications: res.data,
+            });
+        });
+    }, []);
+
+    const readNotice = (type) => {
+        axiosClient.post(`/${type}/readNotice`).then(() => {
+            setNoticeNumber({
+                ...noticeNumber,
+                [type]: 0,
+            });
+        });
+    };
+
+    usePusher("user." + currentUser.id, "NotificationCreated", () => {
+        setNoticeNumber((prev) => ({
+            ...prev,
+            notifications: prev.notifications + 1,
+        }));
+    });
 
     const handleSearch = (value) => {
         axiosClient.get(`/search/user?q=${value}`).then((res) => {
@@ -124,53 +153,68 @@ export default function Header() {
                     />
                 </TippyComponent>
                 <TippyComponent content="Message" placement="bottom">
-                    <Button
-                        iconClass={faMessage}
-                        moreClass={["mr-2"]}
-                        bgColor="gray"
-                        size="large"
-                        onClick={() => {
-                            setButtonActive((prev) =>
-                                prev === "Message" ? null : "Message"
-                            );
-                        }}
-                        isActived={"Message" === buttonActive}
-                    />
-                </TippyComponent>
-                <TippyComponent content="Notify" placement="bottom">
-                    <Button
-                        iconClass={faBell}
-                        moreClass={["mr-2"]}
-                        bgColor="gray"
-                        size="large"
-                        onClick={() => {
-                            setButtonActive((prev) =>
-                                prev === "Notify" ? null : "Notify"
-                            );
-                        }}
-                        isActived={"Notify" === buttonActive}
-                    />
-                </TippyComponent>
-                <TippyComponent content="Account" placement="bottom">
                     <div className="btn-container">
                         <Button
-                            imgPath={currentUser.avatar}
+                            iconClass={faMessage}
+                            moreClass={["mr-2"]}
+                            bgColor="gray"
                             size="large"
                             onClick={() => {
                                 setButtonActive((prev) =>
-                                    prev === "Account" ? null : "Account"
+                                    prev === "Message" ? null : "Message"
                                 );
                             }}
+                            isActived={"Message" === buttonActive}
                         />
-                        <div className="icon-sub hidden">
-                            <Button
-                                text="15"
-                                type="round"
-                                size="small"
-                                bgColor="red"
-                            />
-                        </div>
+                        {noticeNumber.messages > 0 && (
+                            <div className="icon-sub">
+                                <Button
+                                    text={noticeNumber.messages}
+                                    type="round"
+                                    size="small"
+                                    bgColor="red"
+                                />
+                            </div>
+                        )}
                     </div>
+                </TippyComponent>
+                <TippyComponent content="Notify" placement="bottom">
+                    <div className="btn-container">
+                        <Button
+                            iconClass={faBell}
+                            moreClass={["mr-2"]}
+                            bgColor="gray"
+                            size="large"
+                            onClick={() => {
+                                readNotice("notifications");
+                                setButtonActive((prev) =>
+                                    prev === "Notify" ? null : "Notify"
+                                );
+                            }}
+                            isActived={"Notify" === buttonActive}
+                        />
+                        {noticeNumber.notifications > 0 && (
+                            <div className="icon-sub">
+                                <Button
+                                    text={noticeNumber.notifications}
+                                    type="round"
+                                    size="small"
+                                    bgColor="red"
+                                />
+                            </div>
+                        )}
+                    </div>
+                </TippyComponent>
+                <TippyComponent content="Account" placement="bottom">
+                    <Button
+                        imgPath={currentUser.avatar}
+                        size="large"
+                        onClick={() => {
+                            setButtonActive((prev) =>
+                                prev === "Account" ? null : "Account"
+                            );
+                        }}
+                    />
                 </TippyComponent>
             </div>
             {buttonActive !== null && (
