@@ -179,7 +179,9 @@ export default function Header() {
                     {buttonActive === "Message" && (
                         <Message setButtonActive={setButtonActive} />
                     )}
-                    {buttonActive === "Notify" && <Notify />}
+                    {buttonActive === "Notify" && (
+                        <Notify setButtonActive={setButtonActive} />
+                    )}
                     {buttonActive === "Account" && <Account />}
                 </div>
             )}

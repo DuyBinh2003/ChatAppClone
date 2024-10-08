@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Post;
-use App\Events\CreatePostEvent;
+use App\Events\PostCreated;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -64,7 +65,7 @@ class PostController extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
 
             // Get the URL to the stored image
-            $imageUrl = Storage::disk('public')->url($imagePath);
+            $imageUrl = url('storage/' . $imagePath);
         } else {
             $imageUrl = null;
         }
@@ -75,9 +76,9 @@ class PostController extends Controller
             'image' => $imageUrl,
         ]);
         $post->save();
-
+        $post->user = $post->user;
         $friends = FriendController::getListFriend($request->user()->id);
-        event(new CreatePostEvent($post, $friends));
+        PostCreated::dispatch($post, $friends);
 
         return response()->json($post, 201);
     }

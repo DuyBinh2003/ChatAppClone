@@ -4,8 +4,8 @@ import { Button } from "~/layoutComponents/components";
 export default function Sidebar({ data }) {
     return (
         <ul className="flex flex-col items-center py-2">
-            {data.map((item) => (
-                <li key={item.id} className="w-full">
+            {data.map((item, index) => (
+                <li key={index} className="w-full">
                     <Link to={item.to}>
                         <Button
                             text={item.name}

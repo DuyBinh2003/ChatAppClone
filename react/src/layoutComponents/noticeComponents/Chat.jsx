@@ -25,7 +25,6 @@ export default function Chat({
 
     usePusher("message.51", "NewMessage", handleNewMessage);
 
-    console.log(messages);
     useEffect(() => {
         axiosClient
             .get(`/messages/${userChat.id}`)

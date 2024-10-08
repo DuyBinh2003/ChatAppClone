@@ -38,4 +38,11 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    /**
+     * Get the notifications for the post.
+     */
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'reference');
+    }
 }

@@ -80,13 +80,7 @@ export default function CreatePost({ setPrevPosts }) {
                 </div>
             </div>
             {isCreatePost && (
-                <Overlay
-                    type="overlay"
-                    bgColor="black"
-                    onClick={() => {
-                        setIsCreatePost(false);
-                    }}
-                >
+                <Overlay type="overlay" bgColor="black">
                     <div className="absolute w-full h-full flex items-center justify-center">
                         <div className="relative width-notice h-fit bg-zinc-900 py-2.5 px-4 rounded-lg shadow-md">
                             <h3 className="flex-1 text-center text-xl leading-10 border-b-slate-500">

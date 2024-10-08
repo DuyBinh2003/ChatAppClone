@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\NewMessage;
+use App\Events\MessageCreated;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Expr\FuncCall;
 
 class MessageController extends Controller
 {
@@ -42,7 +41,7 @@ class MessageController extends Controller
         );
         $message->save();
 
-        NewMessage::dispatch($message);
+        MessageCreated::dispatch($message);
 
         return response()->json(['status' => 'Message sent!']);
     }
